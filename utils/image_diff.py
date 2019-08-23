@@ -1,4 +1,5 @@
 import cv2
+from utils.image_similar import HashSimilar
 
 
 class ImageDiff(object):
@@ -133,6 +134,7 @@ class ImageDiff(object):
         """
         image = cv2.imread(image_file)
         img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        img = cv2.GaussianBlur(img, (5, 5), 1.0)
         h, w = img.shape
         scale = self.size_scale/w
         img = cv2.resize(img, (0, 0), fx=scale, fy=scale)
@@ -188,3 +190,10 @@ class ImageDiff(object):
             cv2.circle(img_show, (point[0], point[1]), 1, (0, 0, 255), -1)
         cv2.imwrite(image_show, img_show)
         return len(points)
+
+    def get_image_score(self, image1, image2, image_diff_name):
+        score = HashSimilar.get_attention_similar('capture/'+image1, 'capture/'+image2)
+        if score < 1.0:
+            if score > 0.2:
+                self.increment_diff('capture/'+image1, 'capture/'+image2, 'capture/'+image_diff_name)
+        return score
