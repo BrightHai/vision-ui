@@ -1,6 +1,11 @@
 FROM python:3.6.5
-RUN git clone https://github.com/Meituan-Dianping/vision-diff.git\
-    && mv vision-diff vision
+RUN sed -i "s@http://deb.debian.org@http://mirrors.aliyun.com@g" /etc/apt/sources.list
+    &&rm -Rf /var/lib/apt/lists/*
+    &&apt-get update
+RUN apt-get install tesseract-ocr -y && apt-get install tesseract-ocr-chi-sim -y
+COPY ./utils /vision/utils/
+COPY ./requirements.txt /vision/requirements.txt
+COPY ./server.py ./vision/server.py
 WORKDIR /vision
 ARG PIP_MIRROR=https://mirrors.aliyun.com/pypi/simple/
 RUN mkdir capture\
