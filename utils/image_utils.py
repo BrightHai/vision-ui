@@ -2,6 +2,7 @@ import cv2
 import numpy
 from PIL import Image
 import pytesseract
+from cnocr import CnOcr
 
 
 def merge_rectangle_contours(rectangle_contours):
@@ -24,8 +25,13 @@ def merge_rectangle_contours(rectangle_contours):
     return merged_contours
 
 
-def get_image_text(img):
-    text = pytesseract.image_to_string(Image.fromarray(img), lang="chi_sim")
+def get_image_text(img, engine='cnocr'):
+    if engine == 'cnocr':
+        ocr = CnOcr()
+        res = ocr.ocr(img)
+        text = '\n'.join([''.join(i) for i in res])
+    else:
+        text = pytesseract.image_to_string(Image.fromarray(img), lang="chi_sim")
     return text
 
 
@@ -42,6 +48,18 @@ def get_roi_image(img, rectangle_contour):
     roi_image = img[rectangle_contour[0][1]:rectangle_contour[2][1],
                     rectangle_contour[0][0]:rectangle_contour[1][0]]
     return roi_image
+
+
+def get_pop_v(image):
+    """
+    calculate value if a pop window exit
+    :param image: image path
+    :return: mean of v channel
+    """
+    img = cv2.imread('capture/'+image)
+    img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    h, s, v = cv2.split(img_hsv)
+    return numpy.mean(v)
 
 
 def get_rectangle_contours(binary):
