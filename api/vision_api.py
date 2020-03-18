@@ -1,11 +1,11 @@
 from flask import jsonify
 from flask import request
 from flask import Blueprint
-from utils.image_diff import ImageDiff
-from utils.image_merge import Stitcher
-from utils.image_similar import HashSimilar
-from utils.image_text import get_text_roi
-from utils.image_utils import get_pop_v
+from service.image_diff import ImageDiff
+from service.image_merge import Stitcher
+from service.image_similar import HashSimilar
+from service.image_text import get_text_roi, get_ocr_text
+from service.image_utils import get_pop_v
 
 vision = Blueprint('vision', __name__, url_prefix='/vision')
 
@@ -51,6 +51,6 @@ def vision_pop():
 def vision_text():
     data = {
         "code": 0,
-        "data": get_text_roi(request.json['image'])
+        "data": get_ocr_text(request.json['image'])
     }
     return jsonify(data)

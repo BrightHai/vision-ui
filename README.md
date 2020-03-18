@@ -7,16 +7,21 @@
 
 ## 目录
 
-* [图像对比算法vision-diff](resources/vision_diff_en.md)
+* [图像对比算法](resources/vision_diff_en.md)
 
-* [图像文本识别vision-text](resources/vision_text.md)
+* [图像文本识别](resources/vision_text.md)
 
-* [基于机器学习的活动弹窗识别](https://github.com/Meituan-Dianping/vision)
+* [活动弹窗识别](https://github.com/Meituan-Dianping/vision)
 
 
 ## 快速开始
 
 * [Docker部署服务](resources/container_service.md)
+
+
+<img width="600" src="./image/image_6.png"/>
+
+<img width="600" src="./image/vision_text_1.png"/>
 
 
 ## License
