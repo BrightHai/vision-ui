@@ -1,26 +1,54 @@
-# 容器服务
 
-## 系统设计
+## 服务部署
+
+支持本地代码和通过docker容器两种方式进行部署
+
+### 1.本地启动服务
+
+#### a.环境要求
+
+python 3.6.5
+
+#### b.安装依赖库
+
+```bash
+pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
+```
+
+#### c.启动服务
+```bash
+python3 server.py
+```
+
+
+### 2.容器启动服务
+
+#### a.系统设计
 
 <img width="600" src="../image/container_service.png"/>
 
-## 使用说明
-
-### 环境要求
+#### b.环境要求
 
 [安装Docker](https://yeasy.gitbooks.io/docker_practice/install/mac.html) 
 
-### 部署容器
+#### c.启动容器
+构建镜像
+```bash
+docker build -t vision-ui .
+
+```
 
 如果本地需要处理的图像文件在/User/image，根据实际替换为实际路径，本地使用的服务端口为9092，执行如下命令启动容器
 
 ```bash
-docker run -it -d --name container_vision -p 9092:9092 -v /User/image:/vision/capture brighthai/vision
+docker run -it -d --name container_vision -p 9092:9092 -v /User/image:/vision/capture vision-ui
 ```
+
+## 使用说明
 
 ### 图像对比
 
-通过Http协议请求服务，参数"image1"和"image2"表示参与对比计算的图像文件名，可以使用已经准备好的调试图像[1.png](../image/container_image_1.png)和[2.png](../image/container_image_2.png)，参数"image_diff_name"表示生产对比图像后的保存路径
+> 通过Http协议请求服务，所有图像在工程的'capture'路径下，参数"image1"和"image2"表示参与对比计算的图像文件名，可以使用已经准备好的调试图像[1.png](../image/container_image_1.png)和[2.png](../image/container_image_2.png)，参数"image_diff_name"表示生产对比图像后的保存路径
 ```bash
 curl -H "Content-Type:application/json" -X POST --data '{
   "image1":"1.png",
