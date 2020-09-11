@@ -7,7 +7,7 @@
 
 <img width="600" src="../image/vision_text_2.png"/>
 
-文本识别模型基于psenet+crnn的[chinese-ocr-lite](https://github.com/ouyanghuiyu/chineseocr_lite)，对移动端的场景做了部分参数和模型的调整
+文本识别模型基于dbnet+crnn_lstm的[chinese-ocr-lite](https://github.com/ouyanghuiyu/chineseocr_lite)，对移动端的场景做了部分参数和模型的调整
 
 
 ## 使用说明
@@ -20,9 +20,7 @@
 
 > 通过Http协议请求，参数"image"表示图像文件在"capture"下的路径
 ```bash
-curl -H "Content-Type:application/json" -X POST --data '{
-  "image":"image_1.png"
-}' http://localhost:9092/vision/text
+curl -H "Content-Type:application/json" -X POST --data '{"image":"image_1.png"}' http://localhost:9092/vision/text
 ```
 服务返回
 ```bash
